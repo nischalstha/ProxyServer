@@ -7,11 +7,13 @@ import javax.net.ssl.HttpsURLConnection;
 public class ProxyThread extends Thread
 {
 	
-	private Socket socket = null;
+    private Socket socket = null;
     private static final int BUFFER_SIZE = 32768;
+    
     public ProxyThread(Socket socket)
     {
-        super("ProxyThread");	//ensure proper behaviour from superclass: Thread
+    	//Ensure properties from superclass
+        super("ProxyThread");	
         this.socket = socket;
         
     }
@@ -23,24 +25,23 @@ public class ProxyThread extends Thread
     @Override
     public void run() 
     {
-
-    	
         try 
         {
             DataOutputStream out =new DataOutputStream(socket.getOutputStream());
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             
             String requestString = in.readLine();
-	        String headerLine = requestString;
-	        StringBuffer responseBuffer = new StringBuffer();
-	        
-	        StringTokenizer tokenizer = new StringTokenizer(headerLine);
-	        String httpMethod = tokenizer.nextToken();
-	        String httpQueryString = tokenizer.nextToken();
+	    String headerLine = requestString;
+	    StringBuffer responseBuffer = new StringBuffer();
+	   
+	    //StrikngTokenizer to split the content of the header.
+	    StringTokenizer tokenizer = new StringTokenizer(headerLine);
+	    String httpMethod = tokenizer.nextToken();
+	    String httpQueryString = tokenizer.nextToken();
 	
-	        responseBuffer.append("The HTTP Client request is ....<BR>");
+	    responseBuffer.append("The HTTP Client request is ....<BR>");
 	        
-	        System.out.println("-----RESPONSE------");
+	    System.out.println("-----RESPONSE------");
             while (in.ready())
  	       {
  	            // Read the HTTP complete HTTP Query
@@ -50,7 +51,6 @@ public class ProxyThread extends Thread
  	        } 
             
             //end get request from client
-
 
             BufferedReader rd = null;
             try 
